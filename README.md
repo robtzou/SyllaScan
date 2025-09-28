@@ -1,41 +1,46 @@
 # SyllaScan
 
-✨ Inspiration
+##✨ Inspiration
 
-I just like building stuff I'd actually use. As a 🎓 student, I don't know how many times I've woken up at night 😵 forgetting a paper. Not saying this is going to entirely solve that problem but..
+I just like building stuff I'd actually use. As a 🎓 student, I don't know how many times I've woken up at night 😵 forgetting a paper.
+Not saying this is going to entirely solve that problem but...
 
-⚡ What it does
+## ⚡ What it does
 
 I do believe that this site makes it easier to quickly answer all common questions ❓ in a fraction of the time ⏱️.
 
-🛠️ How we built it
+## 🛠️ How we built it
 
 The stack is as follows:
 
-Flask 🐍 acts as a full stack web-server displaying both the HTML/CSS 🎨 as well as passing credentials between client-side ↔️ server-side applications.
+🐍 Flask → full stack web-server for HTML/CSS 🎨 and client ↔️ server communication
 
-Google Vision 👁️ is used for OCR.
+## 👁️ Google Vision → OCR
 
-Gemini 2.5 Flash 💡 for summarizing content into easy snippets.
+💡 Gemini 2.5 Flash → Summarization into easy snippets
 
-Matplotlib 📊 for graphing.
+📊 Matplotlib → Graphing
 
-🚧 Challenges we ran into
+## 🚧 Challenges we ran into
 
-Navigating Google Cloud Console ☁️ for IAM administration roles can be a bit tricky 🧩, but it only took around 30 minutes ⏳ to get the application credentials running.
+Navigating Google Cloud Console ☁️ for IAM roles was a bit tricky 🧩
 
-🏆 Accomplishments that we're proud of
+Took ~30 minutes ⏳ to get the application credentials running
 
-I haven't built an application this fast ⚡ in my entire life. I know it's a very simple idea 💡 but it came to life within just a short few hours ⏱️.
+## 🏆 Accomplishments we're proud of
 
-📚 What we learned
+Built the application faster ⚡ than anything I’ve done before
 
-Knowing what you want 🎯 makes everything super simple.
+A very simple idea 💡 that came to life within just a few hours 🚀
 
-🔮 What's next for SyllaScan
+## 📚 What we learned
 
-For it to be a profitable 💸 application, it would have to be good enough for people to justify a subscription 💳.
+Knowing what you want 🎯 makes everything super simple ✅
 
-Features like a full-fledged calendar 📅 to manage assignments would be the goal.
+## 🔮 What's next for SyllaScan
 
-Also switch to Groq API 🚀 — it's faster!
+📅 Add a full-fledged calendar for managing assignments
+
+🚀 Switch to Groq API (it’s faster!)
+
+💸 Make it good enough for people to justify a subscription
