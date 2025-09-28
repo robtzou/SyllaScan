@@ -36,12 +36,28 @@ except Exception:
 # ===== Google Cloud Vision (OCR) =====
 USE_MOCK = os.getenv("USE_MOCK", "0") == "1"
 vision = None
+vision_client = None
 if not USE_MOCK:
     try:
+        import json
+        from google.oauth2 import service_account
         from google.cloud import vision as vision_mod
+
         vision = vision_mod
-    except Exception:
+
+        # Load credentials from env
+        if "GCP_SERVICE_ACCOUNT_JSON" in os.environ:
+            info = json.loads(os.environ["GCP_SERVICE_ACCOUNT_JSON"])
+            creds = service_account.Credentials.from_service_account_info(info)
+            vision_client = vision.ImageAnnotatorClient(credentials=creds)
+        else:
+            # fallback: use default credentials
+            vision_client = vision.ImageAnnotatorClient()
+
+    except Exception as e:
+        print("Vision init failed:", e)
         vision = None
+        vision_client = None
 
 # ===== Gemini (Generative AI) =====
 genai = None
