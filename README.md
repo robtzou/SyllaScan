@@ -1,6 +1,10 @@
 # SyllaScan
 
-##✨ Inspiration
+<img width=865 height=799 alt=Image src=https://github.com/user-attachments/assets/3388d497-6475-4ea4-ae47-e07474c89cb0 />
+
+<img width=865 height=568 alt=Image src=https://github.com/user-attachments/assets/760d126e-6311-46e0-b675-483a0556940a />
+
+## ✨ Inspiration
 
 I just like building stuff I'd actually use. As a 🎓 student, I don't know how many times I've woken up at night 😵 forgetting a paper.
 Not saying this is going to entirely solve that problem but...
