@@ -10,6 +10,7 @@ dependencies = [
     "flask-session>=0.8.0",
     "google-cloud-vision>=3.10.2",
     "google-generativeai>=0.8.5",
+    "groq>=0.32.0",
     "gunicorn>=23.0.0",
     "matplotlib>=3.10.6",
     "pymupdf>=1.26.4",

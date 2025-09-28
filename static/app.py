@@ -71,331 +71,328 @@ PAGE = """
   <meta charset="utf-8" />
   <title>Syllabus FAQ Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <style>
-    /* =========== THEME =========== */
-    :root{
-      --bg:#0c1222; --panel:#0f172a; --elev:#111827; --border:#1e293b;
-      --text:#e5e7eb; --muted:#93a3b8; --accent:#22d3ee; --accent2:#3b82f6;
-      --ok:#34d399; --err:#ef4444;
-      --font: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
-      --fs-0: 13.5px; --fs-1: 15px; --fs-2: 17px; --fs-3: 20px;
-      --r-s:10px; --r-m:12px; --gap:14px; --pad:14px; --shadow:0 1px 2px rgba(0,0,0,.35),0 8px 20px rgba(0,0,0,.2);
-      --maxw: 1280px; --col-left: 360px;
-      --tab-h: 42px;
-    }
-    @media (prefers-color-scheme: light){
-      :root{ --bg:#f7f9fc; --panel:#ffffff; --elev:#ffffff; --border:#e5e7eb; --text:#0b1220; --muted:#5b6b7f;}
+    /* ========= THEME & TOKENS ========= */
+    :root {
+      /* color palette */
+      --bg: #0b1020;
+      --surface: #0f172a;
+      --elev: #111827;
+      --border: #1f2937;
+      --text: #e5e7eb;
+      --muted: #9fb0c2;
+      --accent: #22d3ee;
+      --accent-2: #3b82f6;
+      --ok: #34d399;
+      --warn: #f59e0b;
+      --err: #ef4444;
+
+      /* typography */
+      --font-sans: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      --fs-0: clamp(14px, 0.85vw + 10px, 16px);
+      --fs-1: clamp(16px, 1vw + 12px, 18px);
+      --fs-2: clamp(18px, 1.2vw + 12px, 22px);
+      --fs-3: clamp(20px, 1.6vw + 12px, 26px);
+      --fs-4: clamp(24px, 2vw + 12px, 32px);
+
+      /* spacing & radius */
+      --space-1: 6px;
+      --space-2: 10px;
+      --space-3: 14px;
+      --space-4: 20px;
+      --space-5: 28px;
+      --space-6: 40px;
+
+      --radius-s: 10px;
+      --radius-m: 14px;
+      --radius-l: 18px;
+
+      /* effects */
+      --shadow-1: 0 1px 2px rgba(0,0,0,.4), 0 6px 16px rgba(0,0,0,.25);
+      --shadow-2: 0 2px 8px rgba(0,0,0,.35), 0 12px 28px rgba(0,0,0,.25);
+
+      /* component dims */
+      --max-w: 1200px;
+      --grid-gap: 18px;
     }
 
-    /* =========== BASE LAYOUT =========== */
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0; background:var(--bg); color:var(--text);
-      font: 500 var(--fs-1)/1.45 var(--font);
-      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
-    }
-    a{color:var(--accent2); text-decoration:none} a:hover{text-decoration:underline}
-
-    .shell{
-      max-width:var(--maxw);
-      margin:0 auto;
-      display:grid;
-      grid-template-columns: var(--col-left) 1fr;
-      gap: var(--gap);
-      height:100vh; /* full height app */
-      padding: var(--gap);
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #f6f7fb;
+        --surface: #ffffff;
+        --elev: #ffffff;
+        --border: #e5e7eb;
+        --text: #0b1020;
+        --muted: #5b6b7f;
+      }
+      .pill { background: #f1f5f9; color: #334155; border-color: #e2e8f0; }
     }
 
-    header.topbar{
-      grid-column: 1 / -1;
-      display:flex; justify-content:space-between; align-items:center;
-      background:var(--panel); border:1px solid var(--border); border-radius:var(--r-m);
-      padding:10px 14px; box-shadow:var(--shadow); position:sticky; top:8px; z-index:30;
-    }
-    .brand{display:flex; align-items:center; gap:10px; font-size:var(--fs-3); font-weight:700}
-    .badge{font-size:12px; border:1px solid var(--border); padding:2px 8px; border-radius:999px; color:var(--muted)}
-
-    /* Left column: sticky controls to reduce page scroll */
-    .left{
-      position:sticky; top:64px; align-self:start;
-      display:grid; gap:var(--gap);
-      max-height: calc(100vh - 80px);
-      overflow:auto; /* internal scroll if needed */
-      padding-right:2px;
-    }
-    .card{
-      background:var(--panel); border:1px solid var(--border); border-radius:var(--r-m);
-      padding:var(--pad); box-shadow:var(--shadow);
-    }
-    .card h2{margin:0 0 8px 0; font-size:var(--fs-2)}
-
-    .muted{color:var(--muted)}
-    .form-row{display:flex; gap:10px; align-items:center}
-    .input{
-      width:100%; background:var(--elev); color:var(--text);
-      border:1px solid var(--border); border-radius:var(--r-s); padding:10px 12px; font:inherit;
-      outline:none;
-    }
-    .input:focus{border-color:var(--accent); box-shadow:0 0 0 3px rgba(34,211,238,.18)}
-    .btn{
-      white-space:nowrap; font-weight:700; border:0; border-radius:var(--r-s); padding:10px 14px;
-      background:linear-gradient(90deg,var(--accent),var(--accent2)); color:#fff; cursor:pointer;
-    }
-    .btn[disabled]{opacity:.6; cursor:not-allowed; box-shadow:none}
-
-    .alerts{display:grid; gap:8px}
-    .alert{padding:8px 10px; border-radius:var(--r-s); border:1px solid var(--border); background:var(--elev); font-size:var(--fs-0)}
-    .alert.ok{background:rgba(52,211,153,.12); border-color:rgba(52,211,153,.4)}
-    .alert.err{background:rgba(239,68,68,.12); border-color:rgba(239,68,68,.5)}
-
-    /* FAQ compact accordion */
-    details.disclosure{border:1px solid var(--border); border-radius:var(--r-s); background:var(--elev); padding:8px 10px}
-    summary{cursor:pointer; font-weight:700}
-    .faq-list{display:grid; gap:8px; margin-top:8px}
-    .faq-item{border:1px dashed var(--border); border-radius:var(--r-s); padding:8px 10px}
-    .faq-item h3{margin:0 0 4px 0; font-size:var(--fs-1)}
-
-    /* Right column: content with tabs to avoid long scroll */
-    .right{
-      display:grid; grid-template-rows: auto 1fr; min-height:0; /* allow children to size */
+    /* ========= BASE ========= */
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      background: radial-gradient(1000px 500px at 0% -10%, rgba(34,211,238,.12), transparent 50%),
+                  radial-gradient(800px 400px at 100% -10%, rgba(59,130,246,.12), transparent 50%),
+                  var(--bg);
+      color: var(--text);
+      font: 500 var(--fs-0)/1.55 var(--font-sans);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
-    /* Tabs (pure CSS) */
-    .tabs{display:grid; grid-template-rows: var(--tab-h) 1fr; gap:0; min-height:0}
-    .tab-bar{
-      display:flex; align-items:stretch; gap:8px; height:var(--tab-h);
-      position:sticky; top:64px; z-index:20; /* stays visible while content scrolls */
-    }
-    .tab{
-      display:flex; align-items:center; gap:8px; padding:0 12px;
-      border:1px solid var(--border); border-bottom:0; border-top-left-radius:10px; border-top-right-radius:10px;
-      background:var(--panel); color:var(--muted); font-weight:700; text-decoration:none;
-    }
-    .tab[aria-selected="true"]{ color:var(--text); background:linear-gradient(180deg, rgba(255,255,255,.03), transparent), var(--elev); }
+    a { color: var(--accent-2); text-decoration: none; }
+    a:hover { text-decoration: underline; }
 
-    .tabpanes{
-      min-height:0;
-      border:1px solid var(--border); border-radius:0 12px 12px 12px;
-      background:var(--panel); box-shadow:var(--shadow); padding:var(--pad);
-      overflow:auto; /* internal scroll keeps page short */
+    /* ========= LAYOUT ========= */
+    .container { max-width: var(--max-w); margin: 0 auto; padding: var(--space-5) var(--space-4); }
+    header.site {
+      backdrop-filter: saturate(120%) blur(6px);
+      background: linear-gradient(180deg, rgba(15,23,42,.8), rgba(15,23,42,.55));
+      border-bottom: 1px solid var(--border);
+      position: sticky; top: 0; z-index: 20;
+    }
+    .header-inner {
+      max-width: var(--max-w);
+      margin: 0 auto; padding: var(--space-3) var(--space-4);
+      display: flex; align-items: center; gap: var(--space-3);
+    }
+    .brand { display: flex; align-items: center; gap: var(--space-2); }
+    .brand h1 { font-size: var(--fs-3); margin: 0; letter-spacing: .2px; }
+    .pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 4px 10px; border-radius: 999px; font-size: 12px;
+      background: #0d1b2a; border: 1px solid var(--border); color: var(--muted);
     }
 
-    /* Charts grid */
-    .charts{display:grid; grid-template-columns: 1fr 1fr; gap:var(--gap); align-content:start}
-    .chart-card h3{margin:0 0 6px 0; font-size:var(--fs-2)}
-    .chart{width:100%; height:auto; border-radius:var(--r-s); border:1px solid var(--border); background:var(--elev)}
-
-    /* Schedule table: compact, sticky header */
-    .table-wrap{overflow:auto; border:1px solid var(--border); border-radius:var(--r-s); background:var(--elev)}
-    table{width:100%; border-collapse:collapse; font-size:var(--fs-0)}
-    thead th{position:sticky; top:0; background:var(--panel); z-index:1}
-    th, td{padding:8px 10px; border-bottom:1px solid var(--border); text-align:left}
-    tbody tr:hover{background:rgba(255,255,255,.03)}
-
-    /* Code block truncated with expand */
-    details.code{
-      border:1px dashed var(--border); border-radius:var(--r-s); padding:8px 10px; background:var(--elev)
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: var(--grid-gap);
     }
-    pre{white-space:pre-wrap; margin:8px 0 0 0; font-size:12px; line-height:1.5; max-height:240px; overflow:auto}
+    .col-8 { grid-column: span 8; }
+    .col-4 { grid-column: span 4; }
+    .col-12 { grid-column: span 12; }
 
-    /* Responsive: collapse to single column */
-    @media (max-width: 1100px){
-      .shell{grid-template-columns: 1fr}
-      .left{position:static; max-height:none; order:2}
-      .right{order:1}
-      .tab-bar{top:8px}
+    @media (max-width: 980px) {
+      .col-8, .col-4 { grid-column: span 12; }
     }
+
+    /* ========= CARDS ========= */
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0)) , var(--elev);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-m);
+      padding: var(--space-4);
+      box-shadow: var(--shadow-1);
+    }
+    .card h2 {
+      margin: 0 0 var(--space-2) 0;
+      font-size: var(--fs-2);
+      line-height: 1.3;
+      letter-spacing: .2px;
+    }
+    .subtle { color: var(--muted); font-size: var(--fs-0); }
+
+    /* ========= FORMS ========= */
+    .form-row { display: flex; gap: var(--space-3); align-items: center; flex-wrap: wrap; }
+    .input, .btn {
+      border-radius: var(--radius-s);
+      border: 1px solid var(--border);
+      padding: 12px 14px;
+      font: inherit;
+      transition: border-color .15s ease, box-shadow .15s ease, transform .04s ease;
+    }
+    .input {
+      width: 100%;
+      background: var(--surface);
+      color: var(--text);
+      outline: none;
+    }
+    .input:focus {
+      border-color: color-mix(in hsl, var(--accent) 55%, white 45%);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 25%, transparent);
+    }
+
+    .btn {
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      color: white; border: 0; cursor: pointer; font-weight: 600;
+      padding-inline: 16px;
+      box-shadow: 0 2px 8px rgba(34,211,238,.25), 0 6px 20px rgba(59,130,246,.25);
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn:active { transform: translateY(0); }
+    .btn[disabled] { opacity: .6; cursor: not-allowed; box-shadow: none; }
+
+    /* ========= ALERTS ========= */
+    .alerts { display: grid; gap: 10px; margin-bottom: var(--space-3); }
+    .alert {
+      padding: 10px 14px; border-radius: var(--radius-s);
+      border: 1px solid var(--border); background: var(--surface);
+    }
+    .alert.ok { border-color: color-mix(in srgb, var(--ok) 50%, var(--border)); background: rgba(52,211,153,.12); }
+    .alert.err { border-color: color-mix(in srgb, var(--err) 50%, var(--border)); background: rgba(239,68,68,.12); }
+
+    /* ========= FAQ ========= */
+    .faq-grid {
+      display: grid; gap: var(--grid-gap);
+      grid-template-columns: repeat(12, minmax(0,1fr));
+    }
+    .faq-item { grid-column: span 6; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-s); padding: var(--space-3); }
+    .faq-item h3 { margin: 0 0 6px 0; font-size: var(--fs-1); }
+    .faq-wide { grid-column: 1 / -1; }
+
+    @media (max-width: 820px) {
+      .faq-item { grid-column: span 12; }
+    }
+
+    /* ========= MEDIA / CODE ========= */
+    .chart { width: 100%; height: auto; border-radius: var(--radius-s); border: 1px solid var(--border); background: var(--surface); }
+    details.disclosure {
+      border: 1px dashed var(--border); border-radius: var(--radius-s); padding: var(--space-2) var(--space-3);
+      background: var(--surface);
+    }
+    summary { cursor: pointer; font-weight: 600; }
+    pre.code {
+      white-space: pre-wrap; font-size: 12px; line-height: 1.5;
+      background: var(--surface); padding: var(--space-3);
+      border-radius: var(--radius-s); border: 1px solid var(--border);
+      max-height: 420px; overflow: auto;
+    }
+
+    /* ========= UTILITIES ========= */
+    .stack-s > * + * { margin-top: var(--space-2); }
+    .stack-m > * + * { margin-top: var(--space-3); }
+    .stack-l > * + * { margin-top: var(--space-4); }
+    .divider { height: 1px; background: var(--border); margin: var(--space-3) 0; border: 0; }
+    .footer { color: var(--muted); margin-top: var(--space-5); display: flex; align-items: center; gap: var(--space-2); }
+    .kbd { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono"; background: var(--surface); border: 1px solid var(--border); padding: 2px 6px; border-radius: 6px; font-size: 12px;}
   </style>
 </head>
+
 <body>
-  <div class="shell">
-    <!-- Top bar -->
-    <header class="topbar">
-      <div class="brand">📚 Syllabus Dashboard</div>
-      <div class="badge">Flask · Vision · Gemini · Matplotlib {% if use_mock %}· Mock{% endif %}</div>
-    </header>
+  <!-- ======= HEADER ======= -->
+  <header class="site" role="banner">
+    <div class="header-inner">
+      <div class="brand">
+        <div aria-hidden="true">📚</div>
+        <h1>Syllabus FAQ Dashboard</h1>
+      </div>
+      <span class="pill" title="Tech stack">Flask · Google Vision · Gemini · Matplotlib</span>
+    </div>
+  </header>
 
-    <!-- LEFT: sticky controls -->
-    <aside class="left" aria-label="Controls and FAQs">
-      <!-- Alerts -->
-      {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-          <div class="alerts" role="status" aria-live="polite">
-            {% for category, message in messages %}
-              <div class="alert {{ 'ok' if category=='success' else 'err' }}">{{ message|safe }}</div>
-            {% endfor %}
-          </div>
-        {% endif %}
-      {% endwith %}
+  <!-- ======= CONTENT ======= -->
+  <main class="container" role="main">
+    <!-- Alerts -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="alerts" role="status" aria-live="polite">
+          {% for category, message in messages %}
+            <div class="alert {{ 'ok' if category=='success' else 'err' }}">{{ message|safe }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
 
+    <section class="grid stack-l">
       <!-- Upload -->
-      <section class="card">
-        <h2>Upload PDF</h2>
-        <p class="muted">OCR with Vision → extract policies & schedule with Gemini.</p>
-        <form method="POST" action="{{ url_for('upload') }}" enctype="multipart/form-data" class="form-row">
-          <input class="input" type="file" name="pdf" accept="application/pdf" required aria-label="Choose PDF" />
-          <button class="btn" type="submit">Process</button>
+      <div class="card col-8 stack-m" aria-labelledby="uploadTitle">
+        <h2 id="uploadTitle">Upload Syllabus (PDF)</h2>
+        <p class="subtle">We’ll OCR it with Google Vision, extract policies &amp; schedule with Gemini, then build charts.</p>
+
+        <form method="POST" action="{{ url_for('upload') }}" enctype="multipart/form-data" class="form-row" aria-label="Upload PDF">
+          <input class="input" type="file" name="pdf" accept="application/pdf" required aria-label="Choose PDF file" />
+          <button class="btn" type="submit">Process PDF</button>
         </form>
+
         {% if syllabus_summary %}
-          <details class="disclosure" style="margin-top:10px" open>
-            <summary>Auto Summary</summary>
-            <p class="muted" style="margin-top:6px">{{ syllabus_summary }}</p>
+          <hr class="divider" />
+          <details class="disclosure" open>
+            <summary><strong>Summary</strong> (auto-generated)</summary>
+            <p class="subtle" style="margin-top:8px;">{{ syllabus_summary }}</p>
           </details>
         {% endif %}
-      </section>
+      </div>
 
       <!-- Ask -->
-      <section class="card">
-        <h2>Ask a Question</h2>
-        <form method="POST" action="{{ url_for('ask') }}" class="form-row">
-          <input class="input" type="text" name="question" placeholder="Late policy? Attendance?" required />
+      <div class="card col-4 stack-m" aria-labelledby="askTitle">
+        <h2 id="askTitle">Ask a Question</h2>
+        <p class="subtle">Ask anything about this course’s policies or schedule.</p>
+
+        <form method="POST" action="{{ url_for('ask') }}" class="form-row" aria-label="Ask a question">
+          <input class="input" type="text" name="question" placeholder="e.g., What’s the late submission penalty?" required aria-label="Your question" />
           <button class="btn" type="submit" {% if not syllabus_text %}disabled aria-disabled="true"{% endif %}>Ask</button>
         </form>
+
         {% if answer %}
-          <div class="muted" style="margin-top:8px"><strong>Answer:</strong> {{ answer }}</div>
+          <hr class="divider" />
+          <div aria-live="polite"><strong>Answer:</strong> {{ answer }}</div>
         {% endif %}
-      </section>
+      </div>
 
-      <!-- FAQs (compact, always visible) -->
+      <!-- FAQs -->
       {% if faq %}
-      <section class="card">
-        <h2>FAQs</h2>
-
-        <div class="faq-list">
+      <div class="card col-12 stack-m">
+        <h2>Extracted FAQs</h2>
+        <div class="faq-grid">
           <div class="faq-item">
-            <h3>📌 Late Work</h3>
-            <div class="muted">{{ faq.get('late_work_policy','—') }}</div>
+            <h3>📌 Late Work Policy</h3>
+            <div class="subtle">{{ faq.get('late_work_policy','—') }}</div>
           </div>
           <div class="faq-item">
-            <h3>🧍 Attendance</h3>
-            <div class="muted">{{ faq.get('attendance_policy','—') }}</div>
+            <h3>🧍 Attendance Policy</h3>
+            <div class="subtle">{{ faq.get('attendance_policy','—') }}</div>
           </div>
-          <div class="faq-item">
-            <h3>🏗️ Structure</h3>
-            <div class="muted">{{ faq.get('course_structure','—') }}</div>
+          <div class="faq-item faq-wide">
+            <h3>🏗️ Course Structure</h3>
+            <div class="subtle">{{ faq.get('course_structure','—') }}</div>
           </div>
         </div>
-      </section>
-      {% endif %}
-    </aside>
-
-    <!-- RIGHT: content with tabs (keeps page short) -->
-    <section class="right" aria-label="Content">
-      <nav class="tab-bar" role="tablist" aria-label="Views">
-        <!-- aria-selected toggled by server-side or JS; default charts selected -->
-        <a class="tab" href="#charts" role="tab" aria-selected="true">Charts</a>
-        <a class="tab" href="#schedule" role="tab" aria-selected="false">Schedule</a>
-        <a class="tab" href="#json" role="tab" aria-selected="false">JSON</a>
-        <a class="tab" href="#ocr" role="tab" aria-selected="false">OCR</a>
-      </nav>
-
-      <div class="tabpanes">
-        <!-- Pane: CHARTS -->
-        <section id="charts" class="pane" role="tabpanel" aria-labelledby="Charts">
-          {% if schedule %}
-          <div class="charts">
-            <div class="chart-card">
-              <h3>Cumulative Grade %</h3>
-              <img class="chart" src="{{ url_for('chart_weights') }}" alt="Cumulative grade percentage by week" />
-              <p class="muted">How much of the final grade is determined by each week cumulatively.</p>
-            </div>
-            <div class="chart-card">
-              <h3>Assignments per Week</h3>
-              <img class="chart" src="{{ url_for('chart_assignments') }}" alt="Assignments per week" />
-              <p class="muted">Count of graded items by week.</p>
-            </div>
-          </div>
-          {% else %}
-            <p class="muted">Upload a syllabus to see charts.</p>
-          {% endif %}
-        </section>
-
-        <!-- Pane: SCHEDULE TABLE -->
-        <section id="schedule" class="pane" role="tabpanel" hidden>
-          {% if schedule %}
-          <div class="table-wrap" aria-label="Schedule table">
-            <table>
-              <thead>
-                <tr>
-                  <th style="width:80px">Week</th>
-                  <th style="width:140px"># Assignments</th>
-                  <th style="width:140px">Weight (%)</th>
-                  <th>Notes</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for item in schedule %}
-                <tr>
-                  <td>{{ item.week }}</td>
-                  <td>{{ item.assignments }}</td>
-                  <td>{{ '%.1f'|format(item.weight_pct|float) }}</td>
-                  <td class="muted">{{ item.notes }}</td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          </div>
-          {% else %}
-            <p class="muted">No schedule yet.</p>
-          {% endif %}
-        </section>
-
-        <!-- Pane: RAW JSON -->
-        <section id="json" class="pane" role="tabpanel" hidden>
-          {% if schedule %}
-            <details class="code" open>
-              <summary><strong>Structured Schedule JSON</strong></summary>
-              <pre>{{ schedule|tojson(indent=2) }}</pre>
-            </details>
-          {% else %}
-            <p class="muted">Upload a syllabus to generate JSON.</p>
-          {% endif %}
-        </section>
-
-        <!-- Pane: OCR TEXT -->
-        <section id="ocr" class="pane" role="tabpanel" hidden>
-          {% if syllabus_text %}
-            <details class="code" open>
-              <summary><strong>Raw OCR Text</strong></summary>
-              <pre>{{ syllabus_text }}</pre>
-            </details>
-          {% else %}
-            <p class="muted">No OCR text yet.</p>
-          {% endif %}
-        </section>
       </div>
+      {% endif %}
+
+      <!-- Charts -->
+      {% if schedule %}
+      <div class="card col-8 stack-m">
+        <h2>Grade % by Week (Cumulative)</h2>
+        <img class="chart" src="{{ url_for('chart_weights') }}" alt="Line chart of cumulative grade percentage by week" />
+        <p class="subtle">Shows the cumulative portion of the final grade allocated up to each week.</p>
+      </div>
+
+      <div class="card col-4 stack-m">
+        <h2>Assignments by Week</h2>
+        <img class="chart" src="{{ url_for('chart_assignments') }}" alt="Bar chart of number of assignments per week" />
+        <p class="subtle">Counts of assessments/assignments detected for each week.</p>
+      </div>
+
+      <div class="card col-12 stack-m">
+        <h2>Structured Schedule (JSON)</h2>
+        <pre class="code">{{ schedule|tojson(indent=2) }}</pre>
+      </div>
+      {% endif %}
+
+      <!-- Raw OCR Text -->
+      {% if syllabus_text %}
+      <div class="card col-12 stack-m">
+        <h2>Raw OCR Text</h2>
+        <details class="disclosure">
+          <summary>Toggle OCR text</summary>
+          <pre class="code" aria-label="OCR text">{{ syllabus_text }}</pre>
+        </details>
+      </div>
+      {% endif %}
     </section>
-  </div>
 
-  <script>
-    // Simple tab router without extra libs; keeps the page height short.
-    const tabs = [...document.querySelectorAll('.tab-bar .tab')];
-    const panes = [...document.querySelectorAll('.tabpanes .pane')];
-
-    function show(id){
-      panes.forEach(p => p.hidden = ('#'+p.id) !== id);
-      tabs.forEach(t => t.setAttribute('aria-selected', (t.getAttribute('href')===id) ? 'true' : 'false'));
-      // Persist chosen tab in hash
-      if(location.hash !== id){ history.replaceState(null, '', id); }
-    }
-    // Init
-    const initial = location.hash && panes.find(p => '#'+p.id===location.hash) ? location.hash : '#charts';
-    show(initial);
-    tabs.forEach(t => t.addEventListener('click', (e)=>{ e.preventDefault(); show(t.getAttribute('href')); }));
-
-    // Improve keyboard flow: arrow keys between tabs
-    document.querySelector('.tab-bar').addEventListener('keydown', (e)=>{
-      if(e.key!=='ArrowRight' && e.key!=='ArrowLeft') return;
-      const i = tabs.findIndex(t => t.getAttribute('aria-selected')==='true');
-      const dir = e.key==='ArrowRight' ? 1 : -1;
-      const next = (i + dir + tabs.length) % tabs.length;
-      tabs[next].focus(); tabs[next].click();
-    });
-  </script>
+    <footer class="footer">
+      <span>Built with Flask, Google Vision, Gemini, and Matplotlib.</span>
+      {% if use_mock %}<span class="pill" title="Using built-in demo data">Mock Mode</span>{% endif %}
+    </footer>
+  </main>
 </body>
 </html>
-
 """
 # ===== Helpers =====
 
