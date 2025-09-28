@@ -1,4 +1,4 @@
-# SyllaScan
+# SyllaScan - Manage Stress ! A cheatsheet for succeeding your classes!
 
 <img width=865 height=799 alt=Image src=https://github.com/user-attachments/assets/3388d497-6475-4ea4-ae47-e07474c89cb0 />
 
